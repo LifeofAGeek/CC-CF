@@ -1,38 +1,126 @@
-#include<bits/stdc++.h>
-using namespace std;
-#define MOD 10000000000007
+#include <bits/stdc++.h> 
 
-long long fast_power(long long base, long long power) {
-    long long result = 1;
-    while(power > 0) {
+using namespace std; 
 
-        if(power % 2 == 1) { // Can also use (power & 1) to make code even faster
-            result = (result*base) % MOD;
-        }
-        base = (base * base) % MOD;
-        power = power / 2; // Can also use power >>= 1; to make code even faster
-    }
-    return result;
-}
+  
+// Function to check the divisibility 
+
+string check(long int k, int d0, int d1) 
+{  
+
+  
+
+    // Cycle 
+
+    long int s = (2 * (d0 + d1)) % 10 +  
+
+                 (4 * (d0 + d1)) % 10 +  
+
+                 (8 * (d0 + d1)) % 10 +  
+
+                 (6 * (d0 + d1)) % 10; 
+
+      
+
+    // no of residual terms 
+
+    int a = (k - 3) % 4; 
+
+      
+
+    // sum of residual terms 
+
+    int x; 
+
+      
+
+    switch(a) 
+
+    { 
+
+      
+
+        // if no of residue term = 0 
+
+        case 0: 
+
+      
+
+        x = 0; 
+
+        break; 
+
+      
+
+        // if no of residue term = 1 
+
+        case 1: 
+
+      
+
+        x = (2 * (d0 + d1)) % 10; 
+
+        break;  
+
+  
+
+        // if no of residue term = 2 
+
+        case 2: 
+
+      
+
+        x = (2 * (d0 + d1)) % 10 +  
+
+            (4 * (d0 + d1)) % 10; 
+
+        break; 
+
+      
+
+        // if no of residue term = 3 
+
+        case 3: 
+
+      
+
+        x = (2 * (d0 + d1)) % 10 + 
+
+            (4 * (d0 + d1)) % 10 +  
+
+            (8 * (d0 + d1)) % 10; 
+
+          
+
+        break; 
+
+    } 
+
+      
+
+    // sum of all digits 
+
+    long int sum = d0 + d1 + ((k - 3) / 4) * s + x; 
+
+      
+
+    // divisibility check 
+
+    if(sum % 3 == 0) 
+
+        return "YES"; 
+
+    return "NO"; 
+} 
 
 int main()
 {
-    int t, k, d0, d1;
+    long int t, k, d0, d1;
     cin>>t;
     while (t--)
     {
-        cin>>k;
-        cin>>d0;
-        cin>>d1;
-        int sum=d0+d1,num;
-        long long ans=d0 * fast_power(10,--k)+ d1 * fast_power(10,--k);
-        while (k)
-        {
-            num=sum%10;
-            sum+=num;
-            ans+=num*pow(10,--k);
-        }
-        if(ans%3==0) cout<<"YES";
-        else cout<<"NO";
+        cin>>k>>d0>>d1;
+        cout<<check(k,d0,d1)<<endl;
     }
+    return 0;
 }
