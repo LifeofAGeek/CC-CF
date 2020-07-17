@@ -1,7 +1,14 @@
 {
     "files.associations": {
         "iostream": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "ostream": "cpp",
+        "string": "cpp",
+        "complex": "cpp",
+        "functional": "cpp",
+        "type_traits": "cpp",
+        "*.tcc": "cpp",
+        "tuple": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
