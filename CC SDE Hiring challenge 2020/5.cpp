@@ -14,58 +14,35 @@ using namespace std;
 #define rotr(a,x) rotl(a,a.size()-x);
 #define nl cout<<endl
 
-int x; 
-void dfsUtil(int node, int count, bool visited[], int& maxCount, list<int>* adj) 
-{ 
-    visited[node] = true; 
-    count++; 
-    for (auto i = adj[node].begin(); i != adj[node].end(); ++i) { 
-        if (!visited[*i]) { 
-            if (count >= maxCount) { 
-                maxCount = count; 
-                x = *i; 
-            } 
-            dfsUtil(*i, count, visited, maxCount, adj); 
-        } 
-    } 
-} 
-
-
-void dfs(int node, int n, list<int>* adj, int& maxCount) 
-{ 
-    bool visited[n + 1]; 
-    int count = 0; 
-    for (int i = 1; i <= n; ++i) 
-        visited[i] = false; 
-  
-    dfsUtil(node, count + 1, visited, maxCount, adj); 
-} 
-
-int diameter(list<int>* adj, int n) 
-{ 
-    int maxCount = INT_MIN; 
-  
-    dfs(1, n, adj, maxCount); 
-
-    dfs(x, n, adj, maxCount); 
-  
-    return maxCount; 
-} 
-
 void solve(){
     //code goes here
     int n;
     cin>>n;
-    list<int>* adj= new list<int>[n+1];
-
-    loop(i,0,n-1){
-    	int u,v;
-    	cin>>u>>v;
-    	adj[u].push_back(v);
-    	adj[v].push_back(u);
+    vector<vector<int>> g(n);
+    for (int i = 1; i < n; i++) {
+        int u, v;
+        cin >> u >> v; u--; v--;
+        g[u].push_back(v);
+        g[v].push_back(u);
     }
+    int ans = 0, root = 0;
 
-    cout<<diameter(adj,n)/2<<endl;
+    function<void(int, int, int)> dfs = [&](int u, int p, int d) -> void {
+        if (ans < d) {
+            root = u;
+            ans = d;
+        }
+        for (int v : g[u]) {
+            if (v == p) {
+                continue;
+            }
+            dfs(v, u, d + 1);
+        }
+    };
+
+    dfs(0, -1, 0);
+    dfs(root, -1, 0);
+    cout << ((ans + 1) >> 1) << '\n';
 }
 
 int32_t main()
